@@ -1,0 +1,5 @@
+{
+    "folder": "documents",
+    "input_file": "encoded_message.txt",
+    "output_file": "decoded_message.txt"
+}
