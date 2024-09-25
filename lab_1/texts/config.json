@@ -1,0 +1,6 @@
+{
+    "directory": "texts",
+    "source_text": "input.txt",
+    "encrypted_text": "output.txt",
+    "key_file": "key.json"
+}
