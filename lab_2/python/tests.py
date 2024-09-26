@@ -52,7 +52,37 @@ def linear_complexity_test(sequence: str) -> float:
     Linear Complexity Test.
     Returns p-value.
     """
-    return 0.5
+    n = len(sequence)
+    sequence = [int(bit) for bit in sequence]  
+
+    L = 0  
+    C = np.zeros(n, dtype=int)  
+    C[0] = 1  
+    N = 0  
+    last = -1  
+    m = 1  
+
+    for i in range(n):
+        D = sequence[i]
+        for j in range(1, L + 1):
+            D ^= C[j] * sequence[i - j]
+        
+        if D == 1:  
+            temp = C.copy()
+            for j in range(m, n):
+                if i + 1 - j >= 0:
+                    C[j] ^= int(temp[i + 1 - j])  
+            if L <= i // 2:
+                L = i + 1 - L
+                last = i
+                m = 1  
+        else:
+            m += 1
+
+    complexity = L
+    p_value = 1.0 - (2 ** (-complexity / 2))
+
+    return p_value
 
 def approximate_entropy_test(sequence: str) -> float:
     """
