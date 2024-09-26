@@ -11,7 +11,6 @@ def runs_test(sequence: str) -> float:
     ones = sequence.count('1')
     pi = ones / n
 
-    
     if abs(pi - 0.5) >= (2 / np.sqrt(n)):
         return 0.0  
     
@@ -25,7 +24,28 @@ def universal_statistical_test(sequence: str) -> float:
     Maurer's Universal Statistical Test.
     Returns p-value.
     """
-    return 0.5
+    n = len(sequence)
+    k = 8  
+    counts = {}
+    
+    for i in range(n - k + 1):
+        substring = sequence[i:i + k]
+        if substring in counts:
+            counts[substring] += 1
+        else:
+            counts[substring] = 1
+
+    m = len(counts)  
+    expected = (2 ** k) / (2 ** (k - 1))  
+    
+    chi_squared = 0
+    for count in counts.values():
+        chi_squared += (count - expected) ** 2 / expected
+
+    df = m - 1  
+    p_value = 1 - gammainc(df / 2, chi_squared / 2)
+
+    return p_value
 
 def linear_complexity_test(sequence: str) -> float:
     """
