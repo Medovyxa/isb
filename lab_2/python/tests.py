@@ -89,7 +89,31 @@ def approximate_entropy_test(sequence: str) -> float:
     Approximate Entropy Test.
     Returns p-value.
     """
-    return 0.5
+    n = len(sequence)
+    m = 2  
+
+    def _calculate_phi(seq, m):
+        counts = {}
+        for i in range(len(seq) - m + 1):
+            block = seq[i:i + m]
+            if block in counts:
+                counts[block] += 1
+            else:
+                counts[block] = 1
+        return sum((count / (len(seq) - m + 1)) * np.log(count / (len(seq) - m + 1)) for count in counts.values())
+
+    phi_m = _calculate_phi(sequence, m)
+    phi_m1 = _calculate_phi(sequence, m + 1)
+
+    approximate_entropy = phi_m - phi_m1
+
+    chi_squared = 2 * n * (np.log(2) - approximate_entropy)
+
+    df = 2 ** m
+
+    p_value = 1 - gammainc(df / 2, chi_squared / 2)
+
+    return p_value
 
 def random_excursions_test(sequence: str) -> float:
     """
