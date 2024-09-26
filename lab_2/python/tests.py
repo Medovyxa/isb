@@ -120,7 +120,29 @@ def random_excursions_test(sequence: str) -> float:
     Random Excursions Test.
     Returns p-value.
     """
-    return 0.5
+    n = len(sequence)
+    k = 3  
+    m = 0  
+    counts = {0: 0}  
+
+    level_counts = {i: 0 for i in range(-k, k + 1)}
+
+    for bit in sequence:
+        m += 1 if bit == '1' else -1  
+        if m in level_counts:
+            level_counts[m] += 1
+
+        if m == 0:
+            counts[0] += 1
+
+    total_count = sum(level_counts.values())
+    expected_counts = {i: (2 / (1 + abs(i))) * total_count for i in level_counts}
+    chi_squared = sum(((level_counts[i] - expected_counts[i]) ** 2) / expected_counts[i] for i in level_counts)
+
+    df = k - 1  
+    p_value = 1 - gammainc(df / 2, chi_squared / 2)
+
+    return p_value
 
 def run_tests(sequences):
     """
