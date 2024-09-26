@@ -1,12 +1,12 @@
+
 #include <iostream>
 #include <random>
 #include <bitset>
 
 /**
- * Генерирует случайную 128-битную бинарную последовательность
- * и выводит ее в виде строки.
+ * Генерация случайной 128-битной последовательности
  */
-void generate_single_binary_sequence() {
+void generate_random_sequence() {
     std::random_device rd;
     std::mt19937_64 gen(rd());
     std::uniform_int_distribution<uint64_t> dis;
@@ -20,10 +20,7 @@ void generate_single_binary_sequence() {
     std::cout << bits1.to_string() << bits2.to_string() << std::endl;
 }
 
-/**
- * Основной метод для запуска приложения.
- */
 int main() {
-    generate_single_binary_sequence();
+    generate_random_sequence();
     return 0;
 }
